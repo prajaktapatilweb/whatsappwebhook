@@ -12,7 +12,7 @@ require('dotenv').config();
 // (copy token from DevX getting started page
 // and save it as environment variable into the .env file)
 const token = process.env.WHATSAPP_TOKEN;
-console.log("To Test", token)
+// console.log("To Test", token)
 // Imports dependencies and set up http server
 const request = require("request"),
     express = require("express"),
@@ -44,6 +44,7 @@ app.post("/webhook", (req, res) => {
                 req.body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
             let msg_body = req.body.entry[0].changes[0].value.messages[0]?.text?.body; // extract the message text from the webhook payload
+            let isItReply = req.body.entry[0].changes[0].value.messages[0]?.context
             axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
@@ -56,7 +57,7 @@ app.post("/webhook", (req, res) => {
                     to: from,
                     text: {
                         body:
-                            msg_body ?
+                            msg_body && isItReply ?
                                 "welcome to 1to1Guru Academy. This is automated whatsapp account so only for valid keywords you will get response "
                                 : "Thank you for your response"
                     },
