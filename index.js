@@ -46,7 +46,7 @@ app.post("/webhook", (req, res) => {
             let msg_body = req.body.entry[0].changes[0].value.messages[0]?.text?.body; // extract the message text from the webhook payload
             // Context is present means . User has tag the earlier message sent to him. 
             let isItReply = req.body.entry[0].changes[0].value.messages[0]?.context
-            console.log('IS Context present',msg_body,isItReply)
+            console.log('IS Context present', msg_body, isItReply)
             axios({
                 method: "POST", // Required, HTTP method, a string, e.g. POST, GET
                 url:
@@ -59,9 +59,11 @@ app.post("/webhook", (req, res) => {
                     to: from,
                     text: {
                         body:
-                            msg_body && isItReply ?
-                                "welcome to 1to1Guru Academy. This is automated whatsapp account so only for valid keywords you will get response "
-                                : "Thank you for your response"
+                            isItReply ?
+                                msg_body  ?
+                                    "welcome to 1to1Guru Academy. This is automated whatsapp account so only for valid keywords you will get response "
+                                    : "Thank you for your response"
+                                :"Ok"
                     },
                 },
                 headers: { "Content-Type": "application/json" },
