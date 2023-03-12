@@ -60,10 +60,10 @@ app.post("/webhook", (req, res) => {
                     text: {
                         body:
                             isItReply ?
-                                msg_body  ?
+                                "Ok"
+                                : msg_body ?
                                     "welcome to 1to1Guru Academy. This is automated whatsapp account so only for valid keywords you will get response "
                                     : "Thank you for your response"
-                                :"Ok"
                     },
                 },
                 headers: { "Content-Type": "application/json" },
